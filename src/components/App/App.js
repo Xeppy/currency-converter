@@ -89,15 +89,22 @@ class App extends Component {
       return <h1>Loading...</h1>
     }
     return (
-      <div className="App">
+      <div className="container App">
         <h1>Currency Converter</h1>
-        <div className="App-flex-1">
-          <SelectMyCurrency data={ currencyObject } selectMyCurrency={this.selectMyCurrency}/>
-          <SelectOthCurrency data={ currencyObject } selectOthCurrency={this.selectOthCurrency}/>
+        <div className="row">
+        <div className="col-6">
+        <SelectMyCurrency data={ currencyObject } selectMyCurrency={this.selectMyCurrency}/>
         </div>
-        <div className="App-flex-1">
-          <InputValue calculateInput={this.calculateInput} inputValue={inputValue}/>
-          <OutputValue calculateOutput={this.calculateOutput} outputValue={outputValue}/>
+        <div className="col-6">
+        <SelectOthCurrency data={ currencyObject } selectOthCurrency={this.selectOthCurrency}/>
+        </div>
+        <div className="col-6">
+        <InputValue calculateInput={this.calculateInput} inputValue={inputValue}/>        
+        </div>
+        <div className="col-6">
+        <OutputValue calculateOutput={this.calculateOutput} outputValue={outputValue}/>        
+        </div>
+
         </div>
       </div>
     );

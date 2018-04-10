@@ -33,18 +33,22 @@ class App extends Component {
 
   calculateInput = (event) => {
     let value = event.target.value;
-    this.setState({
-      inputValue: value,
-      outputValue: value * (this.state.proposedCurrency / this.state.currentCurrency)
-    });
+    if(this.isNumeric(value) || value == 0){
+      this.setState({
+        inputValue: value,
+        outputValue: value * (this.state.proposedCurrency / this.state.currentCurrency)
+      });
+    }
   }
 
   calculateOutput = (event) => {
     let value = event.target.value;
-    this.setState({
-      inputValue: value* (this.state.proposedCurrency / this.state.currentCurrency),
-      outputValue: value 
-    });
+    if(this.isNumeric(value) || value == 0){
+      this.setState({
+        inputValue: value * (this.state.proposedCurrency / this.state.currentCurrency),
+        outputValue: value 
+      });
+    }
   }
 
   updateInputValue = () => {
@@ -81,6 +85,10 @@ class App extends Component {
       }
     };
     xhr.send();
+  }
+
+  isNumeric = (n) => {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
   render() {

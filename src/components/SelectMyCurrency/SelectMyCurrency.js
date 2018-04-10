@@ -12,7 +12,7 @@ class SelectMyCurrency extends Component {
       <Flag />
       <select onChange={this.props.selectMyCurrency} ref="myCurrency">
         {this.props.data.map(currency =>
-        <option key={currency._attributes.currency} value={currency._attributes.rate}>
+        <option key={currency._attributes.currency} value={currency._attributes.rate} name={currency._attributes.currency}>
         {currency._attributes.currency}
         </option>
         )}

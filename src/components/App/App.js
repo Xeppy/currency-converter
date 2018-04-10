@@ -42,7 +42,7 @@ class App extends Component {
     if(this.isNumeric(value) || value === 0){
       this.setState({
         inputValue: value,
-        outputValue: (value * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(2)
+        outputValue: (value * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(3)
       });
     }
   }
@@ -51,7 +51,7 @@ class App extends Component {
     let value = event.target.value;
     if(this.isNumeric(value) || value === 0){
       this.setState({
-        inputValue: (value * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(2),
+        inputValue: (value * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(3),
         outputValue: value 
       });
     }
@@ -59,13 +59,13 @@ class App extends Component {
 
   updateInputValue = () => {
     this.setState({
-      inputValue: (this.state.outputValue * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(2)
+      inputValue: (this.state.outputValue * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(3)
     });
   }
 
   updateOutputValue = () => {
     this.setState({
-      outputValue: (this.state.inputValue * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(2)
+      outputValue: (this.state.inputValue * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(3)
     });
   }
 

@@ -29,13 +29,4 @@ describe('Flag', () => {
     const component = mount(<Flag  />);
     expect(component).toEqual(expect.anything());
   });
-  it('returns an image given a currency code', () => {
-    const component = mount(<Flag  flag="GBP"/>);
-    console.log(component.find('img').text());
-  });
-  it('shallow renders', () => {
-    const component = shallow(<App  />);
-    expect(component).toEqual(expect.anything());
-  });
-
 });

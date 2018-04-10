@@ -15,37 +15,43 @@ class App extends Component {
       currentCurrency: 0,
       proposedCurrency: 0,
       inputValue: 1,
-      outputValue: 1
+      outputValue: 1,
+      currentCountry: 'USD',
+      proposedCountry: 'USD'
     }
   }
 
   selectMyCurrency = (event) => {
+    let index = event.nativeEvent.target.selectedIndex;
     this.setState({
-      currentCurrency: event.target.value
+      currentCurrency: event.target.value,
+      currentCountry: event.nativeEvent.target[index].text
     }, () => {this.updateInputValue();});
   }
 
   selectOthCurrency = (event) => {
+    let index = event.nativeEvent.target.selectedIndex;    
     this.setState({
-      proposedCurrency: event.target.value
+      proposedCurrency: event.target.value,
+      proposedCountry: event.nativeEvent.target[index].text
     }, () => {this.updateOutputValue();});
   }
 
   calculateInput = (event) => {
     let value = event.target.value;
-    if(this.isNumeric(value) || value == 0){
+    if(this.isNumeric(value) || value === 0){
       this.setState({
         inputValue: value,
-        outputValue: value * (this.state.proposedCurrency / this.state.currentCurrency)
+        outputValue: (value * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(2)
       });
     }
   }
 
   calculateOutput = (event) => {
     let value = event.target.value;
-    if(this.isNumeric(value) || value == 0){
+    if(this.isNumeric(value) || value === 0){
       this.setState({
-        inputValue: value * (this.state.proposedCurrency / this.state.currentCurrency),
+        inputValue: (value * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(2),
         outputValue: value 
       });
     }
@@ -53,13 +59,13 @@ class App extends Component {
 
   updateInputValue = () => {
     this.setState({
-      inputValue: this.state.outputValue * (this.state.proposedCurrency / this.state.currentCurrency)
+      inputValue: (this.state.outputValue * (this.state.currentCurrency / this.state.proposedCurrency)).toFixed(2)
     });
   }
 
   updateOutputValue = () => {
     this.setState({
-      outputValue: this.state.inputValue * (this.state.proposedCurrency / this.state.currentCurrency)
+      outputValue: (this.state.inputValue * (this.state.proposedCurrency / this.state.currentCurrency)).toFixed(2)
     });
   }
 
@@ -92,27 +98,42 @@ class App extends Component {
   }
 
   render() {
-    const { currencyObject, inputValue, outputValue } = this.state;
+    const { currencyObject, 
+      currentCurrency, 
+      proposedCurrency, 
+      inputValue, 
+      outputValue, 
+      currentCountry, 
+      proposedCountry
+    } = this.state;
     if(currencyObject.length < 1){
-      return <h1>Loading...</h1>
+      return (
+      <div className="container">
+        <h1>Loading...</h1>
+        <p>You may have CORS enabled on your browser. Please disable it to continue</p>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.thepolyglotdeveloper.com/2014/08/bypass-cors-errors-testing-apis-locally/">Click here to learn more</a>
+      </div>
+    );
     }
     return (
       <div className="container App">
-        <h1>Currency Converter</h1>
-        <div className="row">
-        <div className="col-6">
-        <SelectMyCurrency data={ currencyObject } selectMyCurrency={this.selectMyCurrency}/>
+        <h1 className="mb-3">Currency Converter</h1>
+        <div className="row justify-content-md-center">
+        <div className="card dark col-sm-4" style={{width:'18rem'}}>
+          <div className="card-body">
+            <SelectMyCurrency className="card-title" data={ currencyObject } selectMyCurrency={this.selectMyCurrency} myFlag={ currentCountry }/>
+            <h6 className="card-subtitle mb-2 text-muted">1 EUR = {currentCurrency} {currentCountry}</h6>
+            <InputValue calculateInput={ this.calculateInput } inputValue={ inputValue }/>        
+          </div>
         </div>
-        <div className="col-6">
-        <SelectOthCurrency data={ currencyObject } selectOthCurrency={this.selectOthCurrency}/>
+        <div className="m-3"></div>
+        <div className="card dark col-sm-4" style={{width:'18rem'}}>
+          <div className="card-body">
+            <SelectOthCurrency data={ currencyObject } selectOthCurrency={ this.selectOthCurrency } othFlag={ proposedCountry }/>            
+            <h6 className="card-subtitle mb-2 text-muted">1 EUR = {proposedCurrency} {proposedCountry}</h6>
+            <OutputValue calculateOutput={ this.calculateOutput } outputValue={ outputValue }/>            
+          </div>
         </div>
-        <div className="col-6">
-        <InputValue calculateInput={this.calculateInput} inputValue={inputValue}/>        
-        </div>
-        <div className="col-6">
-        <OutputValue calculateOutput={this.calculateOutput} outputValue={outputValue}/>        
-        </div>
-
         </div>
       </div>
     );

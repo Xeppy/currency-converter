@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Flag from '../Flag/Flag';
 
-class SelectMyCurrency extends Component {
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    return (
-      <div>
-      <Flag />
-      <select onChange={this.props.selectMyCurrency} ref="myCurrency">
-        {this.props.data.map(currency =>
-        <option key={currency._attributes.currency} value={currency._attributes.rate} name={currency._attributes.currency}>
-        {currency._attributes.currency}
-        </option>
-        )}
-      </select>
-      </div>
-    )
-  }
+const SelectMyCurrency = (props) => {
+  return (
+    <div>
+    <Flag flag={props.myFlag}/>
+    <select onChange={props.selectMyCurrency}>
+      {props.data.map(currency =>
+      <option key={currency._attributes.currency} value={currency._attributes.rate} name={currency._attributes.currency}>
+      {currency._attributes.currency}
+      </option>
+      )}
+    </select>
+    </div>
+  );
 }
 
 
